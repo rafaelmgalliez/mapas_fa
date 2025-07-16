@@ -2,7 +2,10 @@ streamlit
 pandas
 folium
 streamlit-folium
+seaborn
 matplotlib
 numpy
-biopython
+statsmodels
 geopy
+tqdm
+simplekml
