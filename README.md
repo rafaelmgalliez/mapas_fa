@@ -1,72 +1,71 @@
-# Mapas Interativos de Casos de Febre Amarela
+# 📊 Painel Interativo de Febre Amarela: Análise Integrada de Casos Humanos e Epizootias
 
-Este repositório contém o código Python para gerar mapas interativos de casos de febre amarela, utilizando as bibliotecas Streamlit e Folium. O objetivo é visualizar a distribuição geográfica e a ocorrência temporal dos casos, permitindo uma análise exploratória dos dados.
+Este repositório contém os scripts e dados para um painel interativo de análise de Febre Amarela no Brasil, cobrindo o período de 1994 a 2025. O projeto, construído com Streamlit, permite a exploração e comparação lado a lado de dados de **casos humanos** e **epizootias em primatas não humanos (PNH)**, além de análises aprofundadas sobre a letalidade da doença.
 
-## Visão Geral
+## 🚀 Funcionalidades Principais
 
-O projeto oferece duas formas principais de visualização:
+O painel é organizado em abas para facilitar a navegação:
 
-1.  **Mapa de Hotspots por Município:** Exibe círculos nos municípios onde ocorreram casos de febre amarela. O tamanho e a cor dos círculos são proporcionais à quantidade de casos registrados em cada município dentro do período e estados selecionados.
+### Aba 1: Visão Geral Comparativa
+* **Mapas Geográficos Sincronizados:** Visualize hotspots e mapas de densidade (kernel) para casos humanos e epizootias. O zoom e o movimento são sincronizados entre os mapas para uma comparação direta.
+* **Análise Demográfica:** Um gráfico "Raindrop Plot" (violino + pontos) mostra a distribuição de idade dos casos humanos, segmentado por regiões endêmicas.
+* **Séries Temporais:** Gráficos comparativos da ocorrência de casos humanos e epizootias ao longo do tempo, com uma linha de tendência de média móvel de 4 semanas.
+* **Análise Sazonal:** Gráficos comparativos do padrão sazonal com uma curva de tendência LOWESS e intervalo de confiança. A suavização da curva é interativamente ajustável por um slider.
 
-2.  **Mapa de Densidade de Kernel de Casos Individuais:** Mostra a densidade dos casos individuais de febre amarela como um mapa de calor, permitindo identificar áreas com maior concentração de ocorrências.
+### Aba 2: Letalidade por Grupo
+* **Comparação Direta:** Compare a taxa de letalidade bruta entre dois grupos (Grupo A vs. Grupo B), definidos por você através da seleção de estados e períodos. O gráfico de barras exibe as taxas com seus respectivos intervalos de confiança de 95%.
+* **Análise de Risco Controlado:** Um "Forest Plot" exibe os resultados de um modelo de regressão logística, mostrando o risco relativo (Odds Ratio) de óbito ao comparar os dois grupos, ajustado pelos fatores de confusão de idade e sexo.
 
-## Funcionalidades
+### Aba 3: Série Histórica de Letalidade
+* **Evolução da Letalidade:** Permite selecionar múltiplos estados e um período para visualizar e comparar a evolução da taxa de letalidade anual em cada um.
+* **Tendência com Confiança:** Cada estado selecionado é representado por uma curva de tendência LOWESS e sua respectiva faixa de confiança de 95%, facilitando a identificação de mudanças no perfil de risco ao longo dos anos.
 
-* **Seleção de Estados:** Permite ao usuário selecionar um ou mais estados brasileiros para filtrar os dados exibidos nos mapas. Inclui a opção de selecionar "Todos" os estados.
-* **Seleção de Período:** Permite ao usuário definir um intervalo de anos para visualizar os casos.
-* **Filtragem por Quantidade de Casos por Município (Mapa de Hotspots):** Permite ao usuário filtrar os municípios exibidos no mapa de hotspots com base no número de casos ocorridos (de 1 ao máximo de casos em um município).
-* **Visualização Interativa:** Os mapas gerados com Folium são interativos, permitindo zoom, pan e tooltips com informações sobre os casos ou municípios.
-* **Carregamento de Dados:** O código carrega os dados de casos de febre amarela de um arquivo CSV (com coordenadas pré-calculadas).
+## 📂 Estrutura do Repositório
+* **`app.py`**: O script principal que executa o painel interativo com Streamlit.
+* **`geocodificar_humanos.py`**: Script de preparação para gerar o arquivo de coordenadas `municipios_coordenadas.csv` a partir dos dados de casos humanos.
+* **`geocodificar_epizootias.py`**: Script de preparação para gerar o arquivo de coordenadas `epizootias_coordenadas.csv` a partir dos dados de epizootias.
+* **`exportar_kmz.py`**: Script opcional para gerar um arquivo KMZ animado para o Google Earth.
+* **`requirements.txt`**: Lista de todas as bibliotecas Python necessárias.
+* **`README.md`**: Este arquivo.
 
-## Como Usar
+## 🛠️ Como Usar
 
-1.  **Pré-requisitos:**
-    * Python 3.6 ou superior
-    * As seguintes bibliotecas Python instaladas:
-        ```bash
-        pip install streamlit pandas folium streamlit-folium matplotlib biopython geopy
-        ```
-    * Um arquivo CSV contendo os dados de casos de febre amarela com as seguintes colunas (mínimo):
-        * `UF_LPI`: Unidade Federativa (sigla do estado).
-        * `MUN_LPI`: Município de ocorrência.
-        * `DT_IS`: Data de início dos sintomas (formato `dd/mm/YYYY`).
-        * `ANO_IS`: Ano de início dos sintomas (geralmente extraído de `DT_IS`).
-        * `Latitude`: Latitude da ocorrência (ou do município, se agregado).
-        * `Longitude`: Longitude da ocorrência (ou do município, se agregado).
-        * `Casos` (opcional, para o mapa de hotspots agregado).
+### Pré-requisitos
+* Python 3.9+
+* Os arquivos de dados `fa_casoshumanos_1994-2025.csv` e `fa_epizpnh_1994-2025.csv` no mesmo diretório.
 
-2.  **Execução:**
-    * Clone este repositório (se disponível).
-    * Certifique-se de que o arquivo de dados CSV (`fa_casoshumanos_1994-2024_com_coords.csv` por padrão) esteja no mesmo diretório do script Python (`febre_amarela_mapa.py`).
-    * Abra o terminal ou prompt de comando, navegue até o diretório do projeto e execute o seguinte comando:
-        ```bash
-        streamlit run febre_amarela_mapa.py
-        ```
-    * O aplicativo será aberto automaticamente no seu navegador web.
+### Passos para Execução
 
-3.  **Interação:**
-    * Utilize os controles na barra lateral para selecionar os estados e o período desejado.
-    * Para o mapa de hotspots, use o slider para filtrar os municípios com base na quantidade de casos.
-    * Interaja com os mapas utilizando o mouse para zoom e pan. Passe o mouse sobre os marcadores para ver informações adicionais.
+**1. Clone o Repositório:**
+```bash
+git clone <URL_DO_SEU_REPOSITORIO>
+cd <NOME_DO_SEU_REPOSITORIO>
 
-## Arquivos no Repositório
+2. Instale as Dependências:
+É altamente recomendável criar um ambiente virtual. Após criar e ativar o ambiente, instale as bibliotecas a partir do arquivo requirements.txt:
+Bash
 
-* `febre_amarela_mapa.py`: O script Python principal que gera o aplicativo Streamlit.
-* `fa_casoshumanos_1994-2024_com_coords.csv` (exemplo): Um arquivo CSV de dados de casos de febre amarela com colunas de latitude e longitude (pode ter um nome diferente no seu caso).
-* `README.md`: Este arquivo com a descrição do projeto.
-* `generate_coord.py` (opcional): Um script para geocodificar dados brutos de casos (se o arquivo CSV com coordenadas não estiver pronto).
-* Outros arquivos auxiliares (se houver).
+pip install -r requirements.txt
 
-## Notas
+3. Prepare os Dados Geográficos:
+Antes da primeira execução do painel, gere os arquivos de coordenadas executando os dois scripts a seguir:
+Bash
 
-* A precisão dos mapas depende da qualidade e precisão dos dados de latitude e longitude no arquivo CSV.
-* Para grandes volumes de dados, o carregamento inicial e a renderização dos mapas podem levar algum tempo.
-* O código pode ser adaptado para carregar dados de diferentes fontes ou para adicionar mais funcionalidades de visualização e análise.
+python geocodificar_humanos.py
+python geocodificar_epizootias.py
 
-## Contribuições
+4. Execute o Painel:
+Com tudo pronto, inicie o aplicativo Streamlit:
+Bash
 
-Contribuições para este projeto são bem-vindas. Sinta-se à vontade para abrir issues para relatar bugs ou sugerir melhorias, ou enviar pull requests com suas modificações.
+streamlit run app.py
 
-## Licença
+Seu navegador abrirá automaticamente com o painel interativo.
 
-[Aqui você pode adicionar a licença sob a qual o projeto está distribuído, por exemplo, MIT License]
+📊 Fontes de Dados
+
+Os dados utilizados neste projeto são públicos e foram obtidos do DATASUS, a plataforma de dados abertos do Sistema Único de Saúde (SUS) do Brasil.
+
+    Fonte: OpenDataSUS - Notificações de Febre Amarela
+
+📜 Licença
