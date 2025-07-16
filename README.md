@@ -21,7 +21,7 @@ O painel é organizado em abas para facilitar a navegação:
 * **Tendência com Confiança:** Cada estado selecionado é representado por uma curva de tendência LOWESS e sua respectiva faixa de confiança de 95%, facilitando a identificação de mudanças no perfil de risco ao longo dos anos.
 
 ## 📂 Estrutura do Repositório
-* **`app.py`**: O script principal que executa o painel interativo com Streamlit.
+* **`febre_amarela_mapa.py`**: O script principal que executa o painel interativo com Streamlit.
 * **`geocodificar_humanos.py`**: Script de preparação para gerar o arquivo de coordenadas `municipios_coordenadas.csv` a partir dos dados de casos humanos.
 * **`geocodificar_epizootias.py`**: Script de preparação para gerar o arquivo de coordenadas `epizootias_coordenadas.csv` a partir dos dados de epizootias.
 * **`exportar_kmz.py`**: Script opcional para gerar um arquivo KMZ animado para o Google Earth.
@@ -58,7 +58,7 @@ python geocodificar_epizootias.py
 Com tudo pronto, inicie o aplicativo Streamlit:
 Bash
 
-streamlit run app.py
+streamlit run febre_amarela_mapa.py
 
 Seu navegador abrirá automaticamente com o painel interativo.
 
